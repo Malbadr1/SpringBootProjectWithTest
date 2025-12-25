@@ -1,0 +1,245 @@
+<!--
+    ======================================================================
+    =                        PROJECT CONFIGURATION                       =
+    =   This pom.xml contains full documentation explaining every part   =
+    =   of the project configuration, dependencies, and build plugins.   =
+    ======================================================================
+-->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <!--
+        Parent dependency for Spring Boot.
+        This controls the default versions for all Spring Boot modules.
+    -->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.2.0</version>
+    </parent>
+
+    <!-- Basic project metadata -->
+    <groupId>EinkaufTest</groupId>
+    <artifactId>TestEinkaufTest</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>TestEinkaufTest</name>
+    <description>Automated Database Testing for Einkauf_test</description>
+
+    <!--
+        Global project properties:
+        - Java 21 for compilation
+        - Spring Boot version
+        - ReportPortal version
+    -->
+    <properties>
+        <java.version>21</java.version>
+        <spring-boot.version>3.2.0</spring-boot.version>
+        <reportportal.version>5.3.5</reportportal.version>
+    </properties>
+
+    <dependencies>
+
+        <!--
+            Spring Boot Core Starter
+            Provides auto-configuration, logging, basic Spring functionality.
+        -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+
+        <!--
+            Spring Boot JDBC Starter
+            Enables DataSource, JDBC templates, and database connectivity.
+        -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
+        </dependency>
+
+        <!--
+            Oracle JDBC Driver (DEACTIVATED)
+            - Scope "provided" means: "Download it but DO NOT use it at runtime."
+            - Spring Boot will NOT auto-configure an Oracle database.
+        -->
+        <dependency>
+            <groupId>com.oracle.database.jdbc</groupId>
+            <artifactId>ojdbc8</artifactId>
+            <version>19.8.0.0</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!--
+            H2 Database (In-memory)
+            - Used at runtime
+            - Allows Spring Boot to start without any real database.
+            - Perfect for development and testing.
+        -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- Email support (JavaMail / Jakarta Mail) -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
+
+        <!--
+            Quartz Scheduler
+            Enables scheduled tasks and job management.
+        -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-quartz</artifactId>
+        </dependency>
+
+        <!--
+            Spring Boot Test Starter
+            Includes JUnit5, Mockito, AssertJ, etc.
+        -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Spring Boot Web Starter: enables Tomcat, REST APIs, port 8080 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!-- ReportPortal agent for JUnit 5 integration -->
+        <dependency>
+            <groupId>com.epam.reportportal</groupId>
+            <artifactId>agent-java-junit5</artifactId>
+            <version>${reportportal.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- ReportPortal logback integration -->
+        <dependency>
+            <groupId>com.epam.reportportal</groupId>
+            <artifactId>logger-java-logback</artifactId>
+            <version>5.2.3</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- JUnit Jupiter (API + Engine) -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.10.1</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>5.10.1</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- SLF4J logging bridge -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jul-to-slf4j</artifactId>
+            <version>2.0.9</version>
+        </dependency>
+
+        <!-- Lombok (reduces boilerplate: getters, setters, constructors) -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+
+        <!-- Log4J → SLF4J bridge -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-to-slf4j</artifactId>
+            <version>2.21.1</version>
+        </dependency>
+
+        <!--
+            REMOVED: Micrometer Observation Framework
+            Reason:
+            - Version 1.12.0 is NOT compatible with Spring Boot 3.2
+            - Causes ClassNotFoundException during WebMVC boot
+        -->
+
+        <!--
+            ADDED: Spring Data JPA
+            Required for:
+            - @Entity, @Table, @Id, @GeneratedValue
+            - Hibernate ORM
+            - CRUD Repository
+        -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <plugins>
+
+            <!--
+                Spring Boot Maven Plugin
+                Enables packaging and running Spring Boot applications via Maven.
+            -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+
+            <!--
+                Maven Compiler Plugin:
+                - Compiles Java code using Java version specified above.
+                - Ensures proper compatibility with JDK 21.
+            -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
+            </plugin>
+
+            <!--
+                Maven Surefire Plugin:
+                - Runs JUnit5 tests.
+                - Disables module-path issues on Java 21.
+                - Allows automatic JUnit 5 extension detection.
+            -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0-M5</version>
+                <configuration>
+                    <useModulePath>false</useModulePath>
+                    <failIfNoTests>true</failIfNoTests>
+                    <forkCount>0</forkCount>
+                    <reuseForks>false</reuseForks>
+                    <argLine>--add-opens java.base/java.lang=ALL-UNNAMED</argLine>
+                    <properties>
+                        <configurationParameters>
+                            junit.jupiter.extensions.autodetection.enabled = true
+                        </configurationParameters>
+                    </properties>
+                </configuration>
+            </plugin>
+
+        </plugins>
+    </build>
+
+</project>
