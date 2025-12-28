@@ -1,5 +1,4 @@
-Here is the **complete professional README in English**, fully rewritten and ready for GitHub.
-It covers **ALL testing types** in your project exactly as requested.
+
 
 ---
 
